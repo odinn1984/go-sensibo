@@ -1,3 +1,7 @@
+// Copyright 2021 To Levan Giguashvili. All rights reserved.
+// Use of this source code is governed by a MIT
+// license that can be found in the LICENSE file.
+
 package sensibo
 
 import (
@@ -8,6 +12,12 @@ import (
 	"github.com/odinn1984/go-sensibo/models"
 )
 
+// Get all of the devices you have access to.
+//
+// fields is a filter on which fields you will have values for
+// in the response.
+//
+// e.g: To get all fields use "*" and to get "id" only use "id"
 func (s *Sensibo) GetAllDevices(fields []string) ([]models.Device, error) {
 	resp, err := s.makeGetRequest(
 		"v2",
@@ -31,6 +41,14 @@ func (s *Sensibo) GetAllDevices(fields []string) ([]models.Device, error) {
 	return parsedResp.Result, nil
 }
 
+// Get a device by ID.
+//
+// id is the ID of the device
+//
+// fields is a filter on which fields you will have values for
+// in the response.
+//
+// e.g: To get all fields use "*" and to get "id" only use "id"
 func (s *Sensibo) GetDevice(id string, fields []string) (*models.Device, error) {
 	resp, err := s.makeGetRequest(
 		"v2",
@@ -54,6 +72,10 @@ func (s *Sensibo) GetDevice(id string, fields []string) (*models.Device, error) 
 	return &parsedResp.Result, nil
 }
 
+// Get a device's AC stats by device ID.
+//
+// id is the ID of the device
+// limit the amount of entries you get in the response
 func (s *Sensibo) GetDeviceACStates(id string, limit uint) ([]models.ACState, error) {
 	resp, err := s.makeGetRequest(
 		"v2",
@@ -77,6 +99,10 @@ func (s *Sensibo) GetDeviceACStates(id string, limit uint) ([]models.ACState, er
 	return parsedResp.Result, nil
 }
 
+// Get historical measurements for a device.
+//
+// id is the ID of the device
+// days is the number of days we want to get the data for
 func (s *Sensibo) GetDeviceHistoricalMeasurements(id string, days uint) (*models.HistoricalMeasurements, error) {
 	resp, err := s.makeGetRequest(
 		"v2",
@@ -100,7 +126,10 @@ func (s *Sensibo) GetDeviceHistoricalMeasurements(id string, days uint) (*models
 	return &parsedResp.Result, nil
 }
 
-func (s *Sensibo) GetDeviceClimateReactSettings(id string) (*models.SmartMode, error) {
+// Get climate react settings for a device.
+//
+// id is the ID of the device
+func (s *Sensibo) GetDeviceClimateReactSettings(id string) (*models.ClimateReact, error) {
 	resp, err := s.makeGetRequest(
 		"v2",
 		fmt.Sprintf("pods/%s/smartmode", id),
@@ -113,7 +142,7 @@ func (s *Sensibo) GetDeviceClimateReactSettings(id string) (*models.SmartMode, e
 
 	parsedResp := struct {
 		Status string
-		Result models.SmartMode
+		Result models.ClimateReact
 	}{}
 
 	if err := json.Unmarshal([]byte(resp), &parsedResp); err != nil {
@@ -123,6 +152,9 @@ func (s *Sensibo) GetDeviceClimateReactSettings(id string) (*models.SmartMode, e
 	return &parsedResp.Result, nil
 }
 
+// Get the timer for a device.
+//
+// id is the ID of the device
 func (s *Sensibo) GetDeviceTimer(id string) (*models.DeviceTimer, error) {
 	resp, err := s.makeGetRequest(
 		"v1",
@@ -146,6 +178,9 @@ func (s *Sensibo) GetDeviceTimer(id string) (*models.DeviceTimer, error) {
 	return &parsedResp.Result, nil
 }
 
+// Get all the schedules set on the device.
+//
+// id is the ID of the device
 func (s *Sensibo) GetDeviceSchedules(id string) ([]models.DeviceSchedule, error) {
 	resp, err := s.makeGetRequest(
 		"v1",
@@ -169,6 +204,7 @@ func (s *Sensibo) GetDeviceSchedules(id string) ([]models.DeviceSchedule, error)
 	return parsedResp.Result, nil
 }
 
+// Get a schedule by ID on the device.
 func (s *Sensibo) GetDeviceSchedule(deviceID string, scheduleID string) (*models.DeviceSchedule, error) {
 	resp, err := s.makeGetRequest(
 		"v1",

@@ -1,7 +1,6 @@
 # go-sensibo
 
 [![Lint And Test](https://github.com/odinn1984/go-sensibo/actions/workflows/ci.yml/badge.svg)](https://github.com/odinn1984/go-sensibo/actions/workflows/ci.yml)
-[![Known Vulnerabilities](https://snyk.io/test/github/odinn1984/go-sensibo/badge.svg)](https://snyk.io/test/github/odinn1984/go-sensibo)
 [![Go Report Card](https://goreportcard.com/badge/github.com/odinn1984/go-sensibo)](https://goreportcard.com/report/github.com/odinn1984/go-sensibo)
 ![Go Version](https://img.shields.io/badge/go%20version-%3E=1.14-61CFDD.svg)
 [![PkgGoDev](https://pkg.go.dev/badge/mod/github.com/odinn1984/go-sensibo)](https://pkg.go.dev/mod/github.com/odinn1984/go-sensibo)
@@ -42,3 +41,11 @@ func main() {
 ```
 
 The above example get all of the devices that are configured on your Sensibo account.
+
+For more information on usage please use one of the following commands:
+
+- `go doc go-sensibo`
+- `go doc go-sensibo.Sensibo`
+- `go doc go-sensibo.<Function Name>`
+- `go doc go-sensibo/models`
+- `go doc go-sensibo/models.<Name Of Type>`

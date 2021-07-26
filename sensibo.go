@@ -58,7 +58,7 @@ func (s *Sensibo) makeRequest(method string, url string, body io.Reader) (string
 		defer res.Body.Close()
 
 		return "", fmt.Errorf(
-			"failed making request: \n\tCode: %v \n\tMsg: %v \n\tErr: %v",
+			"failed making request \n\tCode: %v \n\tMsg: %v \n\tErr: %v",
 			res.StatusCode,
 			string(resBytes),
 			err,
@@ -76,11 +76,10 @@ func (s *Sensibo) makeRequest(method string, url string, body io.Reader) (string
 	return string(resBytes), nil
 }
 
-func (s *Sensibo) getResponse(
+func (s *Sensibo) makeGetRequest(
 	version string,
 	endpoint string,
 	params map[string]string,
-	body io.Reader,
 ) (string, error) {
 	url, err := s.getRequestURL(version, endpoint, params)
 
@@ -88,5 +87,19 @@ func (s *Sensibo) getResponse(
 		return "", fmt.Errorf("failed getting request url: \n\t%v", err)
 	}
 
-	return s.makeRequest("GET", url, body)
+	return s.makeRequest("GET", url, nil)
+}
+
+func (s *Sensibo) makePutRequest(
+	version string,
+	endpoint string,
+	body io.Reader,
+) (string, error) {
+	url, err := s.getRequestURL(version, endpoint, map[string]string{})
+
+	if err != nil {
+		return "", fmt.Errorf("failed getting request url: \n\t%v", err)
+	}
+
+	return s.makeRequest("PUT", url, body)
 }

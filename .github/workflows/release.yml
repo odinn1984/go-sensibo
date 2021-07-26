@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - main
+  repository_dispatch:
+    types: [semantic-release]
 
 jobs:
   release:
@@ -12,4 +14,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release

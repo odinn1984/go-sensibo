@@ -1,8 +1,9 @@
-name: Linter
+name: Commit Linter
 on: [pull_request]
 
 jobs:
-  CommitLinter:
+  commitLinter:
+    name: Commit Linter
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

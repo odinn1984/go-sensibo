@@ -8,7 +8,7 @@ import (
 	"fmt"
 )
 
-// Delete the timer on the device.
+// DeleteDeviceTimer deletes the timer on the device.
 //
 // id is the ID of the device
 //
@@ -27,7 +27,7 @@ func (s *Sensibo) DeleteDeviceTimer(id string) (string, error) {
 	return resp, nil
 }
 
-// Delete a schedule.
+// DeleteDeviceSchedule deletes a schedule.
 //
 // It returns the direct response from Sensibo API as a string or error
 // if an issue occurred

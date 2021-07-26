@@ -4,7 +4,7 @@
 
 package models
 
-// Holds information about who performed the action.
+// CausedBy holds information about who performed the action.
 type CausedBy struct {
 	Username  string
 	Email     string

@@ -4,7 +4,7 @@
 
 package models
 
-// ACState hold information about the state of the AC.
+// ACStateData hold information about the state of the AC.
 type ACStateData struct {
 	On                bool
 	Mode              string

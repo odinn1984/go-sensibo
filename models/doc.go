@@ -2,6 +2,6 @@
 // Use of this source code is governed by a MIT
 // license that can be found in the LICENSE file.
 
-// This package hold all of the custom data types that
-// are needed to communicate with Sensibo's API
+// Package models holds all of the custom data types.
+// These types needed to communicate with Sensibo's API
 package models

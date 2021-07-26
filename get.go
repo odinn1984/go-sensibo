@@ -9,11 +9,10 @@ import (
 )
 
 func (s *Sensibo) GetAllDevices(fields []string) ([]models.Device, error) {
-	resp, err := s.getResponse(
+	resp, err := s.makeGetRequest(
 		"v2",
 		"users/me/pods",
 		map[string]string{"fields": strings.Join(fields, ",")},
-		nil,
 	)
 
 	if err != nil {
@@ -33,11 +32,10 @@ func (s *Sensibo) GetAllDevices(fields []string) ([]models.Device, error) {
 }
 
 func (s *Sensibo) GetDevice(id string, fields []string) (*models.Device, error) {
-	resp, err := s.getResponse(
+	resp, err := s.makeGetRequest(
 		"v2",
 		fmt.Sprintf("pods/%s", id),
 		map[string]string{"fields": strings.Join(fields, ",")},
-		nil,
 	)
 
 	if err != nil {
@@ -57,11 +55,10 @@ func (s *Sensibo) GetDevice(id string, fields []string) (*models.Device, error) 
 }
 
 func (s *Sensibo) GetDeviceACStates(id string, limit uint) ([]models.ACState, error) {
-	resp, err := s.getResponse(
+	resp, err := s.makeGetRequest(
 		"v2",
 		fmt.Sprintf("pods/%s/acStates", id),
 		map[string]string{"limit": fmt.Sprintf("%d", limit)},
-		nil,
 	)
 
 	if err != nil {
@@ -81,11 +78,10 @@ func (s *Sensibo) GetDeviceACStates(id string, limit uint) ([]models.ACState, er
 }
 
 func (s *Sensibo) GetDeviceHistoricalMeasurements(id string, days uint) (*models.HistoricalMeasurements, error) {
-	resp, err := s.getResponse(
+	resp, err := s.makeGetRequest(
 		"v2",
 		fmt.Sprintf("pods/%s/historicalMeasurements", id),
 		map[string]string{"days": fmt.Sprintf("%d", days)},
-		nil,
 	)
 
 	if err != nil {
@@ -105,11 +101,10 @@ func (s *Sensibo) GetDeviceHistoricalMeasurements(id string, days uint) (*models
 }
 
 func (s *Sensibo) GetDeviceClimateReactSettings(id string) (*models.SmartMode, error) {
-	resp, err := s.getResponse(
+	resp, err := s.makeGetRequest(
 		"v2",
 		fmt.Sprintf("pods/%s/smartmode", id),
 		map[string]string{},
-		nil,
 	)
 
 	if err != nil {
@@ -129,11 +124,10 @@ func (s *Sensibo) GetDeviceClimateReactSettings(id string) (*models.SmartMode, e
 }
 
 func (s *Sensibo) GetDeviceTimer(id string) (*models.DeviceTimer, error) {
-	resp, err := s.getResponse(
+	resp, err := s.makeGetRequest(
 		"v1",
 		fmt.Sprintf("pods/%s/timer", id),
 		map[string]string{},
-		nil,
 	)
 
 	if err != nil {
@@ -153,11 +147,10 @@ func (s *Sensibo) GetDeviceTimer(id string) (*models.DeviceTimer, error) {
 }
 
 func (s *Sensibo) GetDeviceSchedules(id string) ([]models.DeviceSchedule, error) {
-	resp, err := s.getResponse(
+	resp, err := s.makeGetRequest(
 		"v1",
 		fmt.Sprintf("pods/%s/schedules", id),
 		map[string]string{},
-		nil,
 	)
 
 	if err != nil {
@@ -177,11 +170,10 @@ func (s *Sensibo) GetDeviceSchedules(id string) ([]models.DeviceSchedule, error)
 }
 
 func (s *Sensibo) GetDeviceSchedule(deviceID string, scheduleID string) (*models.DeviceSchedule, error) {
-	resp, err := s.getResponse(
+	resp, err := s.makeGetRequest(
 		"v1",
 		fmt.Sprintf("pods/%s/schedules/%s", deviceID, scheduleID),
 		map[string]string{},
-		nil,
 	)
 
 	if err != nil {

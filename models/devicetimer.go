@@ -4,7 +4,7 @@
 
 package models
 
-// Information about the timer on the device.
+// DeviceTimer holds information about the timer on the device.
 type DeviceTimer struct {
 	ID                     string
 	IsEnabled              bool
@@ -17,7 +17,7 @@ type DeviceTimer struct {
 		TargetTime           string
 		TargetTimeSecondsAgo int
 		Status               string
-		ScheduleId           string
+		ScheduleID           string
 		LastExecutions       []string
 	}
 	TargetTime               string

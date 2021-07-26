@@ -4,7 +4,7 @@
 
 package models
 
-// Information about historical measurements.
+// HistoricalMeasurements holds information about historical measurements.
 type HistoricalMeasurements struct {
 	Temperature []struct {
 		Time  string

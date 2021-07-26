@@ -4,7 +4,7 @@
 
 package models
 
-// Information about schedule on the device.
+// DeviceSchedule holds information about schedule on the device.
 type DeviceSchedule struct {
 	ID        string
 	IsEnabled bool
@@ -33,7 +33,7 @@ type DeviceSchedule struct {
 	NextTimeSecondsFromNow int
 }
 
-// Payload type for CreateDeviceSchedule method.
+// CreateDeviceSchedulePayload is the payload type for CreateDeviceSchedule method.
 type CreateDeviceSchedulePayload struct {
 	TargetTimeLocal string
 	TimeZone        string

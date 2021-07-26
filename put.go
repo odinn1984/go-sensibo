@@ -11,7 +11,7 @@ import (
 	"github.com/odinn1984/go-sensibo/models"
 )
 
-// Set the device timer.
+// SetDeviceTimer sets the device timer.
 //
 // This function allows us to set the device time which will tell our device
 // to set the AC state to the value of DeviceTimer.ACState.On
@@ -57,7 +57,7 @@ func (s *Sensibo) SetDeviceTimer(id string, state models.DeviceTimer) (string, e
 	return resp, nil
 }
 
-// Toggle the device climate react state on or off.
+// ToggleDeviceClimateReact toggles the device climate react state on or off.
 //
 // id is the ID of the device
 //
@@ -86,7 +86,7 @@ func (s *Sensibo) ToggleDeviceClimateReact(id string, enabled bool) (string, err
 	return resp, nil
 }
 
-// Toggle a device schedule state on or off.
+// ToggleDeviceSchedule toggles a device schedule state on or off.
 //
 // It returns the direct response from Sensibo API as a string or error
 // if an issue occurred

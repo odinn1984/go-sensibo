@@ -9,7 +9,7 @@ import (
 	"fmt"
 )
 
-// Update a property in the AC state.
+// SetDeviceACStateProperty updates a property in the AC state.
 //
 // id is the ID of the device
 //

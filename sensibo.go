@@ -5,6 +5,7 @@
 package sensibo
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -13,10 +14,10 @@ import (
 
 // Sensibo holds all of the available functions to interact with the Sensibo API.
 type Sensibo struct {
-	ApiKey string
+	APIKey string
 }
 
-// Create new Sensibo.
+// New creates new Sensibo instance.
 //
 // apiKey is the API key that you got from https://home.sensibo.com/me/api
 // To generate an API key just go to https://home.sensibo.com/me/api
@@ -25,7 +26,7 @@ type Sensibo struct {
 // It returns a pointed to Sensibo with the key already stored in it
 func New(apikey string) *Sensibo {
 	return &Sensibo{
-		ApiKey: apikey,
+		APIKey: apikey,
 	}
 }
 
@@ -42,7 +43,7 @@ func (s *Sensibo) getRequestURL(version string, endpoint string, params map[stri
 
 	query := req.URL.Query()
 
-	query.Add("apiKey", s.ApiKey)
+	query.Add("apiKey", s.APIKey)
 
 	for k, v := range params {
 		query.Add(k, v)
@@ -54,7 +55,8 @@ func (s *Sensibo) getRequestURL(version string, endpoint string, params map[stri
 }
 
 func (s *Sensibo) makeRequest(method string, url string, body io.Reader) (string, error) {
-	req, err := http.NewRequest(method, url, body)
+	ctx := context.Background()
+	req, err := http.NewRequestWithContext(ctx, method, url, body)
 
 	if err != nil {
 		return "", fmt.Errorf("unable to create new request: \n\t%v", err)

@@ -12,7 +12,7 @@ import (
 	"github.com/odinn1984/go-sensibo/models"
 )
 
-// Set the AC state of the device.
+// SetDeviceACState sets the AC state of the device.
 //
 // id is the ID of the device
 //
@@ -53,14 +53,14 @@ func (s *Sensibo) SetDeviceACState(id string, state models.ACStateData) (string,
 	return resp, nil
 }
 
-// Create a new schedule.
+// CreateDeviceSchedule creates a new schedule.
 //
 // id is the ID of the device
 //
 // It returns the direct response from Sensibo API as a string or error
 // if an issue occurred
 func (s *Sensibo) CreateDeviceSchedule(id string, schedule models.CreateDeviceSchedulePayload) (string, error) {
-	recurringDaysJsonArr, _ := json.Marshal(schedule.RecurringDays)
+	recurringDaysJSONArr, _ := json.Marshal(schedule.RecurringDays)
 	payload := fmt.Sprintf(
 		`
 			{
@@ -85,7 +85,7 @@ func (s *Sensibo) CreateDeviceSchedule(id string, schedule models.CreateDeviceSc
 		int64(schedule.ACState.TargetTemperature),
 		schedule.ACState.TemperatureUnit,
 		schedule.ACState.Swing,
-		string(recurringDaysJsonArr),
+		string(recurringDaysJSONArr),
 	)
 
 	resp, err := s.makePostRequest(

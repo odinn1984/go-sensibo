@@ -3,8 +3,7 @@
 // license that can be found in the LICENSE file.
 
 /*
-
-This is a Go wrapper for the Sensibo API.
+Package go-sensibo is a Go wrapper for the Sensibo API.
 
 This implements the API calls that are listed in https://sensibo.github.io/
 in a simple to use Go package that can be imported to any project.

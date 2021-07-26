@@ -4,7 +4,7 @@
 
 package models
 
-// Extended information about the device.
+// Device holds extended information about the device.
 type Device struct {
 	IsGeofenceOnEnterEnabledForThisUser             bool
 	IsClimateReactGeofenceOnEnterEnabledForThisUser bool
@@ -101,7 +101,7 @@ type Room struct {
 	Icon string
 }
 
-// General time information data structure that is re-usable.
+// SensiboTime holds general time information data structure that is re-usable.
 type SensiboTime struct {
 	Time       string
 	SecondsAgo float64
@@ -122,18 +122,18 @@ type Temperature struct {
 	Values   []float64
 }
 
-// Extended AC data for climate react.
+// ClimateReactState holds extended AC data for climate react.
 type ClimateReactState struct {
 	ACStateData
 	HorizontalSwing string
 	Light           string
 }
 
-// Climate react data.
+// ClimateReact holds climate react data.
 type ClimateReact struct {
 	Enabled                  bool
 	Type                     string
-	DeviceUid                string
+	DeviceUID                string
 	LowTemperatureThreshold  float64
 	HighTemperatureThreshold float64
 	LowTemperatureState      ClimateReactState

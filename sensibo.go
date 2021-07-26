@@ -76,7 +76,7 @@ func (s *Sensibo) makeRequest(method string, url string, body io.Reader) (string
 	return string(resBytes), nil
 }
 
-func (s *Sensibo) getReponse(
+func (s *Sensibo) getResponse(
 	version string,
 	endpoint string,
 	params map[string]string,

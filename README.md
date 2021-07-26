@@ -41,4 +41,4 @@ func main() {
 }
 ```
 
-The above example get all of the devices that are configure on your Sensibo account.
+The above example get all of the devices that are configured on your Sensibo account.

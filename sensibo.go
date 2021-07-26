@@ -103,3 +103,44 @@ func (s *Sensibo) makePutRequest(
 
 	return s.makeRequest("PUT", url, body)
 }
+
+func (s *Sensibo) makePatchRequest(
+	version string,
+	endpoint string,
+	body io.Reader,
+) (string, error) {
+	url, err := s.getRequestURL(version, endpoint, map[string]string{})
+
+	if err != nil {
+		return "", fmt.Errorf("failed getting request url: \n\t%v", err)
+	}
+
+	return s.makeRequest("PATCH", url, body)
+}
+
+func (s *Sensibo) makePostRequest(
+	version string,
+	endpoint string,
+	body io.Reader,
+) (string, error) {
+	url, err := s.getRequestURL(version, endpoint, map[string]string{})
+
+	if err != nil {
+		return "", fmt.Errorf("failed getting request url: \n\t%v", err)
+	}
+
+	return s.makeRequest("POST", url, body)
+}
+
+func (s *Sensibo) makeDeleteRequest(
+	version string,
+	endpoint string,
+) (string, error) {
+	url, err := s.getRequestURL(version, endpoint, map[string]string{})
+
+	if err != nil {
+		return "", fmt.Errorf("failed getting request url: \n\t%v", err)
+	}
+
+	return s.makeRequest("DELETE", url, nil)
+}

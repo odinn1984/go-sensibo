@@ -27,3 +27,10 @@ type DeviceSchedule struct {
 	NextTime               string
 	NextTimeSecondsFromNow int
 }
+
+type CreateDeviceSchedulePayload struct {
+	TargetTimeLocal string
+	TimeZone        string
+	ACState         ACStateData
+	RecurringDays   []string
+}

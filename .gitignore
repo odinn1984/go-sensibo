@@ -450,3 +450,7 @@ config.*.json
 # Swagger metadata
 swagger.y*ml
 swagger.json
+
+# Generate Dirs
+bin
+bin/*

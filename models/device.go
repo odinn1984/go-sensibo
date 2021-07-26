@@ -88,15 +88,18 @@ type Device struct {
 	}
 	MacAddress string
 }
+
 type Room struct {
 	UID  string
 	Name string
 	Icon string
 }
+
 type SensiboTime struct {
 	Time       string
 	SecondsAgo float64
 }
+
 type Mode struct {
 	Temperatures    map[string]Temperature
 	FanLevels       []string
@@ -104,10 +107,12 @@ type Mode struct {
 	HorizontalSwing []string
 	Light           []string
 }
+
 type Temperature struct {
 	IsNative bool
 	Values   []float64
 }
+
 type TemperatureState struct {
 	On                bool
 	TargetTemperature float64
@@ -118,6 +123,7 @@ type TemperatureState struct {
 	HorizontalSwing   string
 	Light             string
 }
+
 type SmartMode struct {
 	Enabled                  bool
 	Type                     string

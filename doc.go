@@ -2,8 +2,7 @@
 // Use of this source code is governed by a MIT
 // license that can be found in the LICENSE file.
 
-/*
-Package go-sensibo is a Go wrapper for the Sensibo API.
+/*Package sensibo is a Go wrapper for the Sensibo API.
 
 This implements the API calls that are listed in https://sensibo.github.io/
 in a simple to use Go package that can be imported to any project.
@@ -27,6 +26,5 @@ func main() {
 }
 ``
 
-The above example get all of the devices that are configured on your Sensibo account.
-*/
+The above example get all of the devices that are configured on your Sensibo account. */
 package sensibo

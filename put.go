@@ -1,3 +1,7 @@
+// Copyright 2021 To Levan Giguashvili. All rights reserved.
+// Use of this source code is governed by a MIT
+// license that can be found in the LICENSE file.
+
 package sensibo
 
 import (
@@ -7,6 +11,15 @@ import (
 	"github.com/odinn1984/go-sensibo/models"
 )
 
+// Set the device timer.
+//
+// This function allows us to set the device time which will tell our device
+// to set the AC state to the value of DeviceTimer.ACState.On
+//
+// id is the ID of the device and state is of type #models.DeviceTimer
+//
+// It returns the direct response from Sensibo API as a string or error
+// if an issue occurred
 func (s *Sensibo) SetDeviceTimer(id string, state models.DeviceTimer) (string, error) {
 	payload := fmt.Sprintf(
 		`
@@ -44,6 +57,12 @@ func (s *Sensibo) SetDeviceTimer(id string, state models.DeviceTimer) (string, e
 	return resp, nil
 }
 
+// Toggle the device climate react state on or off.
+//
+// id is the ID of the device
+//
+// It returns the direct response from Sensibo API as a string or error
+// if an issue occurred
 func (s *Sensibo) ToggleDeviceClimateReact(id string, enabled bool) (string, error) {
 	payload := fmt.Sprintf(
 		`
@@ -67,6 +86,10 @@ func (s *Sensibo) ToggleDeviceClimateReact(id string, enabled bool) (string, err
 	return resp, nil
 }
 
+// Toggle a device schedule state on or off.
+//
+// It returns the direct response from Sensibo API as a string or error
+// if an issue occurred
 func (s *Sensibo) ToggleDeviceSchedule(deviceID string, scheduleID string, enabled bool) (string, error) {
 	payload := fmt.Sprintf(
 		`

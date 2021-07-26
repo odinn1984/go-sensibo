@@ -1,5 +1,10 @@
+// Copyright 2021 To Levan Giguashvili. All rights reserved.
+// Use of this source code is governed by a MIT
+// license that can be found in the LICENSE file.
+
 package models
 
+// Extended information about the device.
 type Device struct {
 	IsGeofenceOnEnterEnabledForThisUser             bool
 	IsClimateReactGeofenceOnEnterEnabledForThisUser bool
@@ -70,7 +75,7 @@ type Device struct {
 	}
 	RemoteFlavor       string
 	RemoteAlternatives []string
-	SmartMode          SmartMode
+	SmartMode          ClimateReact
 	Measurements       struct {
 		Temperature    float64
 		Humidity       float64
@@ -89,17 +94,20 @@ type Device struct {
 	MacAddress string
 }
 
+// Room information.
 type Room struct {
 	UID  string
 	Name string
 	Icon string
 }
 
+// General time information data structure that is re-usable.
 type SensiboTime struct {
 	Time       string
 	SecondsAgo float64
 }
 
+// Mode of the AC unit.
 type Mode struct {
 	Temperatures    map[string]Temperature
 	FanLevels       []string
@@ -108,30 +116,28 @@ type Mode struct {
 	Light           []string
 }
 
+// Temperature histogram.
 type Temperature struct {
 	IsNative bool
 	Values   []float64
 }
 
-type TemperatureState struct {
-	On                bool
-	TargetTemperature float64
-	TemperatureUnit   string
-	Mode              string
-	FanLevel          string
-	Swing             string
-	HorizontalSwing   string
-	Light             string
+// Extended AC data for climate react.
+type ClimateReactState struct {
+	ACStateData
+	HorizontalSwing string
+	Light           string
 }
 
-type SmartMode struct {
+// Climate react data.
+type ClimateReact struct {
 	Enabled                  bool
 	Type                     string
 	DeviceUid                string
 	LowTemperatureThreshold  float64
 	HighTemperatureThreshold float64
-	LowTemperatureState      TemperatureState
-	HighTemperatureState     TemperatureState
+	LowTemperatureState      ClimateReactState
+	HighTemperatureState     ClimateReactState
 	LowTemperatureWebhook    string
 	HighTemperatureWebhook   string
 }

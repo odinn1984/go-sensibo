@@ -1,3 +1,7 @@
+// Copyright 2021 To Levan Giguashvili. All rights reserved.
+// Use of this source code is governed by a MIT
+// license that can be found in the LICENSE file.
+
 package sensibo
 
 import (
@@ -7,10 +11,18 @@ import (
 	"net/http"
 )
 
+// Sensibo holds all of the available functions to interact with the Sensibo API.
 type Sensibo struct {
 	ApiKey string
 }
 
+// Create new Sensibo.
+//
+// apiKey is the API key that you got from https://home.sensibo.com/me/api
+// To generate an API key just go to https://home.sensibo.com/me/api
+// and click on "Add API Key" buttone, fill in the name and it will create the key
+//
+// It returns a pointed to Sensibo with the key already stored in it
 func New(apikey string) *Sensibo {
 	return &Sensibo{
 		ApiKey: apikey,

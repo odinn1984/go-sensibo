@@ -1,5 +1,10 @@
+// Copyright 2021 To Levan Giguashvili. All rights reserved.
+// Use of this source code is governed by a MIT
+// license that can be found in the LICENSE file.
+
 package models
 
+// Information about schedule on the device.
 type DeviceSchedule struct {
 	ID        string
 	IsEnabled bool
@@ -10,8 +15,8 @@ type DeviceSchedule struct {
 				ClimateReact         bool `json:"climate_react"`
 				Motion               string
 				On                   bool
-				ClimateReactSettings SmartMode `json:"climate_react_settings"`
-				PureBoost            string    `json:"pure_boost"`
+				ClimateReactSettings ClimateReact `json:"climate_react_settings"`
+				PureBoost            string       `json:"pure_boost"`
 			}
 		}
 		HorizontalSwing string
@@ -28,6 +33,7 @@ type DeviceSchedule struct {
 	NextTimeSecondsFromNow int
 }
 
+// Payload type for CreateDeviceSchedule method.
 type CreateDeviceSchedulePayload struct {
 	TargetTimeLocal string
 	TimeZone        string

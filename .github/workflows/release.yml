@@ -1,0 +1,15 @@
+name: Release To Github
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    name: Release To Github
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Release
+        run: npx semantic-release

@@ -1,0 +1,26 @@
+name: Lint And Test
+on: [pull_request]
+
+jobs:
+  LintAndTest:
+    name: Lint And Test
+    runs-on: ${{ matrix.operatingSystem }}
+    strategy:
+      matrix:
+        operatingSystem: [ubuntu-latest, macos-latest]
+        goVersions: ['1.14', '1.15', '1.16']
+    env:
+      VERBOSE: 1
+      GOFLAGS: -mod=readonly
+      GOPROXY: https://proxy.golang.org
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.goVersions }}
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Lint
+        run: make lint
+      - name: Test
+        run: make test

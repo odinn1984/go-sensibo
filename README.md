@@ -30,13 +30,14 @@ package main
 import "github.com/odinn1984/go-sensibo"
 
 func main() {
-    client, err := sensibo.New("my-api-key")
+    client := sensibo.New("my-api-key")
+    devices, err := client.GetAllDevices([]string{"*"})
 
     if err != nil {
         // Do some error handling
     }
 
-    devices = client.GetAllDevices([]string{"*"})
+    // Do something with devices
 }
 ```
 

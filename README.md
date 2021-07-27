@@ -1,5 +1,6 @@
 # go-sensibo
 
+[![Vulnerabilities](https://snyk.io/test/github/odinn1984/go-sensibo/badge.svg?sanitize=true)](https://snyk.io/test/github/odinn1984/go-sensibo/badge.svg?sanitize=true)
 [![Build](https://github.com/odinn1984/go-sensibo/actions/workflows/ci.yml/badge.svg)](https://github.com/odinn1984/go-sensibo/actions/workflows/ci.yml)
 [![Release](https://github.com/odinn1984/go-sensibo/actions/workflows/release.yml/badge.svg)](https://github.com/odinn1984/go-sensibo/actions/workflows/release.yml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/odinn1984/go-sensibo)](https://goreportcard.com/report/github.com/odinn1984/go-sensibo)

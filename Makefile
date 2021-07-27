@@ -1,3 +1,5 @@
+VERSION := $(or ${VERSION}, $(shell git describe --tags `git rev-list --tags --max-count=1`))
+
 GREEN  := $(shell tput -Txterm setaf 2)
 YELLOW := $(shell tput -Txterm setaf 3)
 RESET  := $(shell tput -Txterm sgr0)
@@ -7,11 +9,15 @@ GOLANGCI_VERSION = 1.41.1
 lint: ## Run Linter
 	@mkdir -p bin
 	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v${GOLANGCI_VERSION}
-	
+
 	./bin/golangci-lint run
 
 test: ## Run Tests
 	go test -v -cover -race ./...
+
+update-pkg-cache: ## Update go pkg cache with the latest version
+	GOPROXY=https://proxy.golang.org GO111MODULE=on \
+		go get github.com/odinn1984/go-sensibo@$(VERSION)
 
 clean: ## Clean Go Project
 	go clean

@@ -9,22 +9,20 @@ in a simple to use Go package that can be imported to any project.
 
 You can run the following simple code to get you started:
 
-``
-package main
+	package main
 
-import "github.com/odinn1984/go-sensibo"
+	import "github.com/odinn1984/go-sensibo"
 
-func main() {
-    client := sensibo.New("my-api-key")
-    devices, err := client.GetAllDevices([]string{"*"})
+	func main() {
+		client := sensibo.New("my-api-key")
+		devices, err := client.GetAllDevices([]string{"*"})
 
-    if err != nil {
-        // Do some error handling
-    }
+		if err != nil {
+			// Do some error handling
+		}
 
-    // Do something with devices
-}
-``
+		// Do something with devices
+	}
 
 The above example get all of the devices that are configured on your Sensibo account. */
 package sensibo

@@ -1,5 +1,3 @@
-VERSION := $(or ${VERSION}, $(shell git describe --tags `git rev-list --tags --max-count=1`))
-
 GREEN  := $(shell tput -Txterm setaf 2)
 YELLOW := $(shell tput -Txterm setaf 3)
 RESET  := $(shell tput -Txterm sgr0)
@@ -17,7 +15,7 @@ test: ## Run Tests
 
 update-pkg-cache: ## Update go pkg cache with the latest version
 	GOPROXY=https://proxy.golang.org GO111MODULE=on \
-		go get github.com/odinn1984/go-sensibo@$(VERSION)
+		go get -v github.com/odinn1984/go-sensibo
 
 clean: ## Clean Go Project
 	go clean

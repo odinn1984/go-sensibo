@@ -1,9 +1,9 @@
-name: Lint And Test
+name: CI
 on: [pull_request]
 
 jobs:
   LintAndTest:
-    name: Lint And Test
+    name: Build
     runs-on: ${{ matrix.operatingSystem }}
     strategy:
       matrix:

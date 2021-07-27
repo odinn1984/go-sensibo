@@ -13,10 +13,6 @@ lint: ## Run Linter
 test: ## Run Tests
 	go test -v -cover -race ./...
 
-update-pkg-cache: ## Update go pkg cache with the latest version
-	GOPROXY=https://proxy.golang.org GO111MODULE=on \
-		go get -v github.com/odinn1984/go-sensibo
-
 clean: ## Clean Go Project
 	go clean
 

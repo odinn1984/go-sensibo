@@ -20,7 +20,7 @@ go get github.com/odinn1984/go-sensibo
 
 ## How To Use?
 
-To use `go-sensibo` simply add `require github.com/odinn1984/go-sinsibo v0.1.0` to your `go.mod` file or just add `github.com/odinn1984/go-sensibo` to an already existing `require` block.
+To use `go-sensibo` simply add `require github.com/odinn1984/go-sensibo v0.1.0` to your `go.mod` file or just add `github.com/odinn1984/go-sensibo` to an already existing `require` block.
 
 Then you can run the following simple code to get you started:
 

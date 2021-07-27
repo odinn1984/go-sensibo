@@ -6,6 +6,7 @@ package sensibo
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 
 	"github.com/odinn1984/go-sensibo/models"
@@ -20,7 +21,7 @@ import (
 //
 // It returns the direct response from Sensibo API as a string or error
 // if an issue occurred
-func (s *Sensibo) SetDeviceTimer(id string, state models.DeviceTimer) (string, error) {
+func (s *Sensibo) SetDeviceTimer(ctx context.Context, id string, state models.DeviceTimer) (string, error) {
 	payload := fmt.Sprintf(
 		`
 			{
@@ -45,6 +46,7 @@ func (s *Sensibo) SetDeviceTimer(id string, state models.DeviceTimer) (string, e
 	)
 
 	resp, err := s.makePutRequest(
+		ctx,
 		"v1",
 		fmt.Sprintf("pods/%s/timer", id),
 		bytes.NewBuffer([]byte(payload)),
@@ -63,7 +65,7 @@ func (s *Sensibo) SetDeviceTimer(id string, state models.DeviceTimer) (string, e
 //
 // It returns the direct response from Sensibo API as a string or error
 // if an issue occurred
-func (s *Sensibo) ToggleDeviceClimateReact(id string, enabled bool) (string, error) {
+func (s *Sensibo) ToggleDeviceClimateReact(ctx context.Context, id string, enabled bool) (string, error) {
 	payload := fmt.Sprintf(
 		`
 			{
@@ -74,6 +76,7 @@ func (s *Sensibo) ToggleDeviceClimateReact(id string, enabled bool) (string, err
 	)
 
 	resp, err := s.makePutRequest(
+		ctx,
 		"v2",
 		fmt.Sprintf("pods/%s/smartmode", id),
 		bytes.NewBuffer([]byte(payload)),
@@ -90,7 +93,7 @@ func (s *Sensibo) ToggleDeviceClimateReact(id string, enabled bool) (string, err
 //
 // It returns the direct response from Sensibo API as a string or error
 // if an issue occurred
-func (s *Sensibo) ToggleDeviceSchedule(deviceID string, scheduleID string, enabled bool) (string, error) {
+func (s *Sensibo) ToggleDeviceSchedule(ctx context.Context, deviceID string, scheduleID string, enabled bool) (string, error) {
 	payload := fmt.Sprintf(
 		`
 			{
@@ -101,6 +104,7 @@ func (s *Sensibo) ToggleDeviceSchedule(deviceID string, scheduleID string, enabl
 	)
 
 	resp, err := s.makePutRequest(
+		ctx,
 		"v1",
 		fmt.Sprintf("pods/%s/schedules/%s", deviceID, scheduleID),
 		bytes.NewBuffer([]byte(payload)),

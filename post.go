@@ -6,6 +6,7 @@ package sensibo
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 
@@ -18,7 +19,7 @@ import (
 //
 // It returns the direct response from Sensibo API as a string or error
 // if an issue occurred
-func (s *Sensibo) SetDeviceACState(id string, state models.ACStateData) (string, error) {
+func (s *Sensibo) SetDeviceACState(ctx context.Context, id string, state models.ACStateData) (string, error) {
 	payload := fmt.Sprintf(
 		`
 			{
@@ -41,6 +42,7 @@ func (s *Sensibo) SetDeviceACState(id string, state models.ACStateData) (string,
 	)
 
 	resp, err := s.makePostRequest(
+		ctx,
 		"v2",
 		fmt.Sprintf("pods/%s/acStates", id),
 		bytes.NewBuffer([]byte(payload)),
@@ -59,7 +61,7 @@ func (s *Sensibo) SetDeviceACState(id string, state models.ACStateData) (string,
 //
 // It returns the direct response from Sensibo API as a string or error
 // if an issue occurred
-func (s *Sensibo) CreateDeviceSchedule(id string, schedule models.CreateDeviceSchedulePayload) (string, error) {
+func (s *Sensibo) CreateDeviceSchedule(ctx context.Context, id string, schedule models.CreateDeviceSchedulePayload) (string, error) {
 	recurringDaysJSONArr, _ := json.Marshal(schedule.RecurringDays)
 	payload := fmt.Sprintf(
 		`
@@ -89,6 +91,7 @@ func (s *Sensibo) CreateDeviceSchedule(id string, schedule models.CreateDeviceSc
 	)
 
 	resp, err := s.makePostRequest(
+		ctx,
 		"v1",
 		fmt.Sprintf("pods/%s/schedules", id),
 		bytes.NewBuffer([]byte(payload)),

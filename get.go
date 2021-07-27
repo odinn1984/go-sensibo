@@ -5,6 +5,7 @@
 package sensibo
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"strings"
@@ -18,8 +19,9 @@ import (
 // in the response.
 //
 // e.g: To get all fields use "*" and to get "id" only use "id"
-func (s *Sensibo) GetAllDevices(fields []string) ([]models.Device, error) {
+func (s *Sensibo) GetAllDevices(ctx context.Context, fields []string) ([]models.Device, error) {
 	resp, err := s.makeGetRequest(
+		ctx,
 		"v2",
 		"users/me/pods",
 		map[string]string{"fields": strings.Join(fields, ",")},
@@ -49,8 +51,9 @@ func (s *Sensibo) GetAllDevices(fields []string) ([]models.Device, error) {
 // in the response.
 //
 // e.g: To get all fields use "*" and to get "id" only use "id"
-func (s *Sensibo) GetDevice(id string, fields []string) (*models.Device, error) {
+func (s *Sensibo) GetDevice(ctx context.Context, id string, fields []string) (*models.Device, error) {
 	resp, err := s.makeGetRequest(
+		ctx,
 		"v2",
 		fmt.Sprintf("pods/%s", id),
 		map[string]string{"fields": strings.Join(fields, ",")},
@@ -76,8 +79,9 @@ func (s *Sensibo) GetDevice(id string, fields []string) (*models.Device, error) 
 //
 // id is the ID of the device
 // limit the amount of entries you get in the response
-func (s *Sensibo) GetDeviceACStates(id string, limit uint) ([]models.ACState, error) {
+func (s *Sensibo) GetDeviceACStates(ctx context.Context, id string, limit uint) ([]models.ACState, error) {
 	resp, err := s.makeGetRequest(
+		ctx,
 		"v2",
 		fmt.Sprintf("pods/%s/acStates", id),
 		map[string]string{"limit": fmt.Sprintf("%d", limit)},
@@ -103,8 +107,9 @@ func (s *Sensibo) GetDeviceACStates(id string, limit uint) ([]models.ACState, er
 //
 // id is the ID of the device
 // days is the number of days we want to get the data for
-func (s *Sensibo) GetDeviceHistoricalMeasurements(id string, days uint) (*models.HistoricalMeasurements, error) {
+func (s *Sensibo) GetDeviceHistoricalMeasurements(ctx context.Context, id string, days uint) (*models.HistoricalMeasurements, error) {
 	resp, err := s.makeGetRequest(
+		ctx,
 		"v2",
 		fmt.Sprintf("pods/%s/historicalMeasurements", id),
 		map[string]string{"days": fmt.Sprintf("%d", days)},
@@ -129,8 +134,9 @@ func (s *Sensibo) GetDeviceHistoricalMeasurements(id string, days uint) (*models
 // GetDeviceClimateReactSettings gets climate react settings for a device.
 //
 // id is the ID of the device
-func (s *Sensibo) GetDeviceClimateReactSettings(id string) (*models.ClimateReact, error) {
+func (s *Sensibo) GetDeviceClimateReactSettings(ctx context.Context, id string) (*models.ClimateReact, error) {
 	resp, err := s.makeGetRequest(
+		ctx,
 		"v2",
 		fmt.Sprintf("pods/%s/smartmode", id),
 		map[string]string{},
@@ -155,8 +161,9 @@ func (s *Sensibo) GetDeviceClimateReactSettings(id string) (*models.ClimateReact
 // GetDeviceTimer gets the timer for a device.
 //
 // id is the ID of the device
-func (s *Sensibo) GetDeviceTimer(id string) (*models.DeviceTimer, error) {
+func (s *Sensibo) GetDeviceTimer(ctx context.Context, id string) (*models.DeviceTimer, error) {
 	resp, err := s.makeGetRequest(
+		ctx,
 		"v1",
 		fmt.Sprintf("pods/%s/timer", id),
 		map[string]string{},
@@ -181,8 +188,9 @@ func (s *Sensibo) GetDeviceTimer(id string) (*models.DeviceTimer, error) {
 // GetDeviceSchedules gets all the schedules set on the device.
 //
 // id is the ID of the device
-func (s *Sensibo) GetDeviceSchedules(id string) ([]models.DeviceSchedule, error) {
+func (s *Sensibo) GetDeviceSchedules(ctx context.Context, id string) ([]models.DeviceSchedule, error) {
 	resp, err := s.makeGetRequest(
+		ctx,
 		"v1",
 		fmt.Sprintf("pods/%s/schedules", id),
 		map[string]string{},
@@ -205,8 +213,9 @@ func (s *Sensibo) GetDeviceSchedules(id string) ([]models.DeviceSchedule, error)
 }
 
 // GetDeviceSchedule gets a schedule by ID on the device.
-func (s *Sensibo) GetDeviceSchedule(deviceID string, scheduleID string) (*models.DeviceSchedule, error) {
+func (s *Sensibo) GetDeviceSchedule(ctx context.Context, deviceID string, scheduleID string) (*models.DeviceSchedule, error) {
 	resp, err := s.makeGetRequest(
+		ctx,
 		"v1",
 		fmt.Sprintf("pods/%s/schedules/%s", deviceID, scheduleID),
 		map[string]string{},

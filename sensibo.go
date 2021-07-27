@@ -30,8 +30,14 @@ func New(apikey string) *Sensibo {
 	}
 }
 
-func (s *Sensibo) getRequestURL(version string, endpoint string, params map[string]string) (string, error) {
-	req, err := http.NewRequest(
+func (s *Sensibo) getRequestURL(
+	ctx context.Context,
+	version string,
+	endpoint string,
+	params map[string]string,
+) (string, error) {
+	req, err := http.NewRequestWithContext(
+		ctx,
 		"GET",
 		fmt.Sprintf("https://home.sensibo.com/api/%v/%v", version, endpoint),
 		nil,
@@ -54,8 +60,7 @@ func (s *Sensibo) getRequestURL(version string, endpoint string, params map[stri
 	return req.URL.String(), nil
 }
 
-func (s *Sensibo) makeRequest(method string, url string, body io.Reader) (string, error) {
-	ctx := context.Background()
+func (s *Sensibo) makeRequest(ctx context.Context, method string, url string, body io.Reader) (string, error) {
 	req, err := http.NewRequestWithContext(ctx, method, url, body)
 
 	if err != nil {
@@ -91,70 +96,75 @@ func (s *Sensibo) makeRequest(method string, url string, body io.Reader) (string
 }
 
 func (s *Sensibo) makeGetRequest(
+	ctx context.Context,
 	version string,
 	endpoint string,
 	params map[string]string,
 ) (string, error) {
-	url, err := s.getRequestURL(version, endpoint, params)
+	url, err := s.getRequestURL(ctx, version, endpoint, params)
 
 	if err != nil {
 		return "", fmt.Errorf("failed getting request url: \n\t%v", err)
 	}
 
-	return s.makeRequest("GET", url, nil)
+	return s.makeRequest(ctx, "GET", url, nil)
 }
 
 func (s *Sensibo) makePutRequest(
+	ctx context.Context,
 	version string,
 	endpoint string,
 	body io.Reader,
 ) (string, error) {
-	url, err := s.getRequestURL(version, endpoint, map[string]string{})
+	url, err := s.getRequestURL(ctx, version, endpoint, map[string]string{})
 
 	if err != nil {
 		return "", fmt.Errorf("failed getting request url: \n\t%v", err)
 	}
 
-	return s.makeRequest("PUT", url, body)
+	return s.makeRequest(ctx, "PUT", url, body)
 }
 
 func (s *Sensibo) makePatchRequest(
+	ctx context.Context,
 	version string,
 	endpoint string,
 	body io.Reader,
 ) (string, error) {
-	url, err := s.getRequestURL(version, endpoint, map[string]string{})
+	url, err := s.getRequestURL(ctx, version, endpoint, map[string]string{})
 
 	if err != nil {
 		return "", fmt.Errorf("failed getting request url: \n\t%v", err)
 	}
 
-	return s.makeRequest("PATCH", url, body)
+	return s.makeRequest(ctx, "PATCH", url, body)
 }
 
 func (s *Sensibo) makePostRequest(
+	ctx context.Context,
 	version string,
 	endpoint string,
 	body io.Reader,
 ) (string, error) {
-	url, err := s.getRequestURL(version, endpoint, map[string]string{})
+	url, err := s.getRequestURL(ctx, version, endpoint, map[string]string{})
 
 	if err != nil {
 		return "", fmt.Errorf("failed getting request url: \n\t%v", err)
 	}
 
-	return s.makeRequest("POST", url, body)
+	return s.makeRequest(ctx, "POST", url, body)
 }
 
 func (s *Sensibo) makeDeleteRequest(
+	ctx context.Context,
 	version string,
 	endpoint string,
 ) (string, error) {
-	url, err := s.getRequestURL(version, endpoint, map[string]string{})
+	url, err := s.getRequestURL(ctx, version, endpoint, map[string]string{})
 
 	if err != nil {
 		return "", fmt.Errorf("failed getting request url: \n\t%v", err)
 	}
 
-	return s.makeRequest("DELETE", url, nil)
+	return s.makeRequest(ctx, "DELETE", url, nil)
 }

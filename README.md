@@ -1,6 +1,6 @@
 # go-sensibo
 
-[![Lint And Test](https://github.com/odinn1984/go-sensibo/actions/workflows/ci.yml/badge.svg)](https://github.com/odinn1984/go-sensibo/actions/workflows/ci.yml)
+[![Build](https://github.com/odinn1984/go-sensibo/actions/workflows/ci.yml/badge.svg)](https://github.com/odinn1984/go-sensibo/actions/workflows/ci.yml)
 [![Release](https://github.com/odinn1984/go-sensibo/actions/workflows/release.yml/badge.svg)](https://github.com/odinn1984/go-sensibo/actions/workflows/release.yml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/odinn1984/go-sensibo)](https://goreportcard.com/report/github.com/odinn1984/go-sensibo)
 ![Go Version](https://img.shields.io/badge/go%20version-%3E=1.14-61CFDD.svg)

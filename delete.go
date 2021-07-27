@@ -5,6 +5,7 @@
 package sensibo
 
 import (
+	"context"
 	"fmt"
 )
 
@@ -14,8 +15,9 @@ import (
 //
 // It returns the direct response from Sensibo API as a string or error
 // if an issue occurred
-func (s *Sensibo) DeleteDeviceTimer(id string) (string, error) {
+func (s *Sensibo) DeleteDeviceTimer(ctx context.Context, id string) (string, error) {
 	resp, err := s.makeDeleteRequest(
+		ctx,
 		"v1",
 		fmt.Sprintf("pods/%s/time", id),
 	)
@@ -31,8 +33,9 @@ func (s *Sensibo) DeleteDeviceTimer(id string) (string, error) {
 //
 // It returns the direct response from Sensibo API as a string or error
 // if an issue occurred
-func (s *Sensibo) DeleteDeviceSchedule(deviceID string, scheduleID string) (string, error) {
+func (s *Sensibo) DeleteDeviceSchedule(ctx context.Context, deviceID string, scheduleID string) (string, error) {
 	resp, err := s.makeDeleteRequest(
+		ctx,
 		"v1",
 		fmt.Sprintf("pods/%s/schedules/%s", deviceID, scheduleID),
 	)

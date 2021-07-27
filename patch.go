@@ -6,6 +6,7 @@ package sensibo
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 )
 
@@ -15,7 +16,7 @@ import (
 //
 // It returns the direct response from Sensibo API as a string or error
 // if an issue occurred
-func (s *Sensibo) SetDeviceACStateProperty(id string, property string, value string) (string, error) {
+func (s *Sensibo) SetDeviceACStateProperty(ctx context.Context, id string, property string, value string) (string, error) {
 	payload := fmt.Sprintf(
 		`
 			{
@@ -26,6 +27,7 @@ func (s *Sensibo) SetDeviceACStateProperty(id string, property string, value str
 	)
 
 	resp, err := s.makePatchRequest(
+		ctx,
 		"v1",
 		fmt.Sprintf("pods/%s/acStates/%s", id, property),
 		bytes.NewBuffer([]byte(payload)),

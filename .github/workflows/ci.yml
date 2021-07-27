@@ -13,7 +13,7 @@ jobs:
       VERBOSE: 1
       GOFLAGS: -mod=readonly
       GOPROXY: https://proxy.golang.org
-      GO111MODULE: on
+      GO111MODULE: 'on'
     steps:
       - name: Set up Go
         uses: actions/setup-go@v2

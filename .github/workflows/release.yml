@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GOPROXY: https://proxy.golang.org
-      GO111MODULE: on
+      GO111MODULE: 'on'
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -28,5 +28,5 @@ jobs:
       - name: Update Go Pkg Cache
         uses: actions/setup-go@v2
         with:
-          go-version: 1.16
-        run: cd / && go get -v github.com/odinn1984/go-sensibo@${{ steps.GetLatestVersion.outputs.release }}
+          go-version: '1.16'
+        run: cd && go get -v github.com/odinn1984/go-sensibo@${{ steps.GetLatestVersion.outputs.release }}

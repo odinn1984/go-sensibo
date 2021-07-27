@@ -3,7 +3,7 @@ on: [pull_request]
 
 jobs:
   commitLinter:
-    name: Commit Linter
+    name: Lint
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

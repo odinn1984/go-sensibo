@@ -7,10 +7,17 @@ package sensibo
 import (
 	"bytes"
 	"context"
+	"encoding/json"
 	"fmt"
 
 	"github.com/odinn1984/go-sensibo/models"
 )
+
+// SetDeviceTimerPayload is the payload for SetDeviceTimer API call
+type SetDeviceTimerPayload struct {
+	MinutesFromNow int                `json:"minutesFromNow"`
+	ACState        models.ACStateData `json:"acState"`
+}
 
 // SetDeviceTimer sets the device timer.
 //
@@ -21,35 +28,20 @@ import (
 //
 // It returns the direct response from Sensibo API as a string or error
 // if an issue occurred
-func (s *Sensibo) SetDeviceTimer(ctx context.Context, id string, state models.DeviceTimer) (string, error) {
-	payload := fmt.Sprintf(
-		`
-			{
-				"minutesFromNow": %d,
-				"acState": {
-					"on": %v,
-					"mode": "%s",
-					"fanLevel": "%s",
-					"targetTemperature": %d,
-					"temperatureUnit": "%s",
-					"swing": "%s"
-				}
-			}
-		`,
-		state.TargetTimeSecondsFromNow/60,
-		state.ACState.On,
-		state.ACState.Mode,
-		state.ACState.FanLevel,
-		int64(state.ACState.TargetTemperature),
-		state.ACState.TemperatureUnit,
-		state.ACState.Swing,
-	)
+func (s *Sensibo) SetDeviceTimer(ctx context.Context, id string, minutesFromNow int, state models.ACStateData) (string, error) {
+	payload := SetDeviceTimerPayload{minutesFromNow, state}
+
+	payloadStr, err := json.Marshal(payload)
+
+	if err != nil {
+		return "", fmt.Errorf("failed marshal on payload: \n\t%v", err)
+	}
 
 	resp, err := s.makePutRequest(
 		ctx,
 		"v1",
 		fmt.Sprintf("pods/%s/timer", id),
-		bytes.NewBuffer([]byte(payload)),
+		bytes.NewBuffer(payloadStr),
 	)
 
 	if err != nil {
@@ -59,6 +51,11 @@ func (s *Sensibo) SetDeviceTimer(ctx context.Context, id string, state models.De
 	return resp, nil
 }
 
+// ToggleDeviceClimateReactPayload is the payload for ToggleDeviceClimateReact API call
+type ToggleDeviceClimateReactPayload struct {
+	Enabled bool `json:"enabled"`
+}
+
 // ToggleDeviceClimateReact toggles the device climate react state on or off.
 //
 // id is the ID of the device
@@ -66,20 +63,18 @@ func (s *Sensibo) SetDeviceTimer(ctx context.Context, id string, state models.De
 // It returns the direct response from Sensibo API as a string or error
 // if an issue occurred
 func (s *Sensibo) ToggleDeviceClimateReact(ctx context.Context, id string, enabled bool) (string, error) {
-	payload := fmt.Sprintf(
-		`
-			{
-				"enabled": %v
-			}
-		`,
-		enabled,
-	)
+	payload := ToggleDeviceClimateReactPayload{enabled}
+	payloadStr, err := json.Marshal(payload)
+
+	if err != nil {
+		return "", fmt.Errorf("failed marshal on payload: \n\t%v", err)
+	}
 
 	resp, err := s.makePutRequest(
 		ctx,
 		"v2",
 		fmt.Sprintf("pods/%s/smartmode", id),
-		bytes.NewBuffer([]byte(payload)),
+		bytes.NewBuffer(payloadStr),
 	)
 
 	if err != nil {
@@ -89,25 +84,28 @@ func (s *Sensibo) ToggleDeviceClimateReact(ctx context.Context, id string, enabl
 	return resp, nil
 }
 
+// ToggleDeviceSchedulePayload is the payload for the ToggleDeviceSchedule API call
+type ToggleDeviceSchedulePayload struct {
+	IsEnabled bool `json:"isEnabled"`
+}
+
 // ToggleDeviceSchedule toggles a device schedule state on or off.
 //
 // It returns the direct response from Sensibo API as a string or error
 // if an issue occurred
 func (s *Sensibo) ToggleDeviceSchedule(ctx context.Context, deviceID string, scheduleID string, enabled bool) (string, error) {
-	payload := fmt.Sprintf(
-		`
-			{
-				"isEnabled": %v
-			}
-		`,
-		enabled,
-	)
+	payload := ToggleDeviceSchedulePayload{enabled}
+	payloadStr, err := json.Marshal(payload)
+
+	if err != nil {
+		return "", fmt.Errorf("failed marshal on payload: \n\t%v", err)
+	}
 
 	resp, err := s.makePutRequest(
 		ctx,
 		"v1",
 		fmt.Sprintf("pods/%s/schedules/%s", deviceID, scheduleID),
-		bytes.NewBuffer([]byte(payload)),
+		bytes.NewBuffer(payloadStr),
 	)
 
 	if err != nil {

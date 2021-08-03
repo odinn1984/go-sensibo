@@ -7,7 +7,6 @@ linters:
         - bodyclose
         - deadcode
         - dogsled
-        - dupl
         - durationcheck
         - exhaustive
         - exportloopref

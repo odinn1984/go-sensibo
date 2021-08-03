@@ -10,11 +10,19 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+	"net/url"
+	"sort"
 )
 
 // Sensibo holds all of the available functions to interact with the Sensibo API.
 type Sensibo struct {
-	APIKey string
+	APIKey     string
+	httpClient HTTPClient
+}
+
+// HTTPClient interface
+type HTTPClient interface {
+	Do(req *http.Request) (*http.Response, error)
 }
 
 // New creates new Sensibo instance.
@@ -23,41 +31,36 @@ type Sensibo struct {
 // To generate an API key just go to https://home.sensibo.com/me/api
 // and click on "Add API Key" buttone, fill in the name and it will create the key
 //
+// httpClient is the client we want to use for http requests (e.g: http.DefaultClient)
+//
 // It returns a pointed to Sensibo with the key already stored in it
-func New(apikey string) *Sensibo {
+func New(httpClient HTTPClient, apikey string) *Sensibo {
 	return &Sensibo{
-		APIKey: apikey,
+		APIKey:     apikey,
+		httpClient: httpClient,
 	}
 }
 
 func (s *Sensibo) getRequestURL(
-	ctx context.Context,
 	version string,
 	endpoint string,
 	params map[string]string,
-) (string, error) {
-	req, err := http.NewRequestWithContext(
-		ctx,
-		"GET",
-		fmt.Sprintf("https://home.sensibo.com/api/%v/%v", version, endpoint),
-		nil,
-	)
+) string {
+	baseURL := fmt.Sprintf("https://home.sensibo.com/api/%s/%s?apiKey=%s", version, endpoint, s.APIKey)
+	queryKeys := []string{}
+	queryParams := ""
 
-	if err != nil {
-		return "", fmt.Errorf("unable to create new request: \n\t%v", err)
+	for k := range params {
+		queryKeys = append(queryKeys, k)
 	}
 
-	query := req.URL.Query()
+	sort.Strings(queryKeys)
 
-	query.Add("apiKey", s.APIKey)
-
-	for k, v := range params {
-		query.Add(k, v)
+	for _, k := range queryKeys {
+		queryParams = fmt.Sprintf("%s&%s=%s", queryParams, k, url.QueryEscape(params[k]))
 	}
 
-	req.URL.RawQuery = query.Encode()
-
-	return req.URL.String(), nil
+	return fmt.Sprintf("%s%s", baseURL, queryParams)
 }
 
 func (s *Sensibo) makeRequest(ctx context.Context, method string, url string, body io.Reader) (string, error) {
@@ -70,10 +73,15 @@ func (s *Sensibo) makeRequest(ctx context.Context, method string, url string, bo
 	req.Header.Set("Content-type", "application/json")
 	req.Header.Set("accept", "*/*")
 
-	res, err := http.DefaultClient.Do(req)
+	res, err := s.httpClient.Do(req)
 
-	if err != nil || res.StatusCode != 200 {
-		resBytes, err := ioutil.ReadAll(res.Body)
+	if err != nil || res.StatusCode != http.StatusOK {
+		resBytes, ioErr := ioutil.ReadAll(res.Body)
+
+		if ioErr != nil {
+			return "", fmt.Errorf("io error occurred: \n\t%v", ioErr)
+		}
+
 		defer res.Body.Close()
 
 		return "", fmt.Errorf(
@@ -101,13 +109,11 @@ func (s *Sensibo) makeGetRequest(
 	endpoint string,
 	params map[string]string,
 ) (string, error) {
-	url, err := s.getRequestURL(ctx, version, endpoint, params)
-
-	if err != nil {
-		return "", fmt.Errorf("failed getting request url: \n\t%v", err)
-	}
-
-	return s.makeRequest(ctx, "GET", url, nil)
+	return s.makeRequest(ctx,
+		http.MethodGet,
+		s.getRequestURL(version, endpoint, params),
+		nil,
+	)
 }
 
 func (s *Sensibo) makePutRequest(
@@ -116,13 +122,12 @@ func (s *Sensibo) makePutRequest(
 	endpoint string,
 	body io.Reader,
 ) (string, error) {
-	url, err := s.getRequestURL(ctx, version, endpoint, map[string]string{})
-
-	if err != nil {
-		return "", fmt.Errorf("failed getting request url: \n\t%v", err)
-	}
-
-	return s.makeRequest(ctx, "PUT", url, body)
+	return s.makeRequest(
+		ctx,
+		http.MethodPut,
+		s.getRequestURL(version, endpoint, map[string]string{}),
+		body,
+	)
 }
 
 func (s *Sensibo) makePatchRequest(
@@ -131,13 +136,12 @@ func (s *Sensibo) makePatchRequest(
 	endpoint string,
 	body io.Reader,
 ) (string, error) {
-	url, err := s.getRequestURL(ctx, version, endpoint, map[string]string{})
-
-	if err != nil {
-		return "", fmt.Errorf("failed getting request url: \n\t%v", err)
-	}
-
-	return s.makeRequest(ctx, "PATCH", url, body)
+	return s.makeRequest(
+		ctx,
+		http.MethodPatch,
+		s.getRequestURL(version, endpoint, map[string]string{}),
+		body,
+	)
 }
 
 func (s *Sensibo) makePostRequest(
@@ -146,13 +150,12 @@ func (s *Sensibo) makePostRequest(
 	endpoint string,
 	body io.Reader,
 ) (string, error) {
-	url, err := s.getRequestURL(ctx, version, endpoint, map[string]string{})
-
-	if err != nil {
-		return "", fmt.Errorf("failed getting request url: \n\t%v", err)
-	}
-
-	return s.makeRequest(ctx, "POST", url, body)
+	return s.makeRequest(
+		ctx,
+		http.MethodPost,
+		s.getRequestURL(version, endpoint, map[string]string{}),
+		body,
+	)
 }
 
 func (s *Sensibo) makeDeleteRequest(
@@ -160,11 +163,10 @@ func (s *Sensibo) makeDeleteRequest(
 	version string,
 	endpoint string,
 ) (string, error) {
-	url, err := s.getRequestURL(ctx, version, endpoint, map[string]string{})
-
-	if err != nil {
-		return "", fmt.Errorf("failed getting request url: \n\t%v", err)
-	}
-
-	return s.makeRequest(ctx, "DELETE", url, nil)
+	return s.makeRequest(
+		ctx,
+		http.MethodDelete,
+		s.getRequestURL(version, endpoint, map[string]string{}),
+		nil,
+	)
 }

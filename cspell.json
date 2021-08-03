@@ -1,39 +1,49 @@
 {
-  "version": "0.1",
-  "language": "en",
-  "dictionaries": [
-      "go",
-      "misc",
-      "softwareTerms"
-  ],
-  "ignorePaths": [
-      ".golangci.yml",
-      ".gitignore",
-      ".releaserc"
-  ],
-  "words": [
-      "atoi",
-      "golangci",
-      "hmac",
-      "ioutil",
-      "nolint",
-      "readonly",
-      "strconv",
-      "stretchr",
-      "struct",
-      "testdata",
-      "untracked",
-      "unstaged",
-      "vendored",
-      "sensibo",
-      "odinn",
-      "releaserc",
-      "levan",
-      "giguashvili",
-      "GOPROXY",
-      "pozetroninc",
-      "wagoid",
-      "commitlint",
-      "GOFLAGS"
-  ]
+    "version": "0.1",
+    "language": "en",
+    "dictionaries": [
+        "go",
+        "misc",
+        "softwareTerms"
+    ],
+    "ignorePaths": [
+        ".golangci.yml",
+        ".gitignore",
+        ".releaserc",
+        "./testdata/**/*"
+    ],
+    "words": [
+        "atoi",
+        "golangci",
+        "hmac",
+        "ioutil",
+        "nolint",
+        "readonly",
+        "strconv",
+        "stretchr",
+        "struct",
+        "testdata",
+        "untracked",
+        "unstaged",
+        "vendored",
+        "sensibo",
+        "odinn",
+        "releaserc",
+        "levan",
+        "giguashvili",
+        "GOPROXY",
+        "pozetroninc",
+        "wagoid",
+        "commitlint",
+        "GOFLAGS",
+        "Kidsroom",
+        "qrid",
+        "rssi",
+        "piezo",
+        "tvoc",
+        "pofloat",
+        "ssid",
+        "uvjs",
+        "etdb"
+    ]
 }

@@ -7,8 +7,14 @@ package sensibo
 import (
 	"bytes"
 	"context"
+	"encoding/json"
 	"fmt"
 )
+
+// SetDeviceACStatePropertyPayload is the payload for SetDeviceACStateProperty API call
+type SetDeviceACStatePropertyPayload struct {
+	NewValue string `json:"newValue"`
+}
 
 // SetDeviceACStateProperty updates a property in the AC state.
 //
@@ -17,20 +23,21 @@ import (
 // It returns the direct response from Sensibo API as a string or error
 // if an issue occurred
 func (s *Sensibo) SetDeviceACStateProperty(ctx context.Context, id string, property string, value string) (string, error) {
-	payload := fmt.Sprintf(
-		`
-			{
-				"newValue": %s
-			}
-		`,
-		value,
-	)
+	payload := SetDeviceACStatePropertyPayload{
+		NewValue: value,
+	}
+
+	payloadStr, err := json.Marshal(payload)
+
+	if err != nil {
+		return "", fmt.Errorf("failed marshal on payload: \n\t%v", err)
+	}
 
 	resp, err := s.makePatchRequest(
 		ctx,
-		"v1",
+		"v2",
 		fmt.Sprintf("pods/%s/acStates/%s", id, property),
-		bytes.NewBuffer([]byte(payload)),
+		bytes.NewBuffer(payloadStr),
 	)
 
 	if err != nil {

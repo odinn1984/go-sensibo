@@ -19,7 +19,7 @@ func (s *Sensibo) DeleteDeviceTimer(ctx context.Context, id string) (string, err
 	resp, err := s.makeDeleteRequest(
 		ctx,
 		"v1",
-		fmt.Sprintf("pods/%s/time", id),
+		fmt.Sprintf("pods/%s/timer", id),
 	)
 
 	if err != nil {

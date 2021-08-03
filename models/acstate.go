@@ -6,13 +6,13 @@ package models
 
 // ACState holds extended information about the state of the AC.
 type ACState struct {
-	ID      string
-	Status  string
+	ID      string `json:"id"`
+	Status  string `json:"status"`
 	ACState struct {
-		Timestamp SensiboTime
+		Timestamp SensiboTime `json:"timestamp"`
 		ACStateData
-	}
-	ChangedProperties []string
-	Reason            string
-	FailureReason     string
+	} `json:"acState"`
+	ChangedProperties []string `json:"changedProperties"`
+	Reason            string   `json:"reason"`
+	FailureReason     string   `json:"failureReason"`
 }

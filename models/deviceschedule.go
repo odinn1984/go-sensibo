@@ -32,11 +32,3 @@ type DeviceSchedule struct {
 	NextTime               string
 	NextTimeSecondsFromNow int
 }
-
-// CreateDeviceSchedulePayload is the payload type for CreateDeviceSchedule method.
-type CreateDeviceSchedulePayload struct {
-	TargetTimeLocal string
-	TimeZone        string
-	ACState         ACStateData
-	RecurringDays   []string
-}

@@ -6,10 +6,10 @@ package models
 
 // ACStateData hold information about the state of the AC.
 type ACStateData struct {
-	On                bool
-	Mode              string
-	FanLevel          string
-	TargetTemperature float64
-	TemperatureUnit   string
-	Swing             string
+	On                bool   `json:"on"`
+	Mode              string `json:"mode"`
+	FanLevel          string `json:"fanLevel"`
+	TargetTemperature int    `json:"targetTemperature"`
+	TemperatureUnit   string `json:"temperatureUnit"`
+	Swing             string `json:"swing"`
 }

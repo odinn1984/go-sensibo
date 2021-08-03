@@ -13,6 +13,11 @@ import (
 	"github.com/odinn1984/go-sensibo/models"
 )
 
+// SetDeviceACStatePayload is the payload for the SetDeviceACState API
+type SetDeviceACStatePayload struct {
+	ACState models.ACStateData `json:"acState"`
+}
+
 // SetDeviceACState sets the AC state of the device.
 //
 // id is the ID of the device
@@ -20,32 +25,18 @@ import (
 // It returns the direct response from Sensibo API as a string or error
 // if an issue occurred
 func (s *Sensibo) SetDeviceACState(ctx context.Context, id string, state models.ACStateData) (string, error) {
-	payload := fmt.Sprintf(
-		`
-			{
-				"acState": {
-					"on": %v,
-					"mode": "%s",
-					"fanLevel": "%s",
-					"targetTemperature": %d,
-					"temperatureUnit": "%s",
-					"swing": "%s"
-				}
-			}
-		`,
-		state.On,
-		state.Mode,
-		state.FanLevel,
-		int64(state.TargetTemperature),
-		state.TemperatureUnit,
-		state.Swing,
-	)
+	payload := SetDeviceACStatePayload{state}
+	payloadStr, err := json.Marshal(payload)
+
+	if err != nil {
+		return "", fmt.Errorf("failed marshal on payload: \n\t%v", err)
+	}
 
 	resp, err := s.makePostRequest(
 		ctx,
 		"v2",
 		fmt.Sprintf("pods/%s/acStates", id),
-		bytes.NewBuffer([]byte(payload)),
+		bytes.NewBuffer(payloadStr),
 	)
 
 	if err != nil {
@@ -55,46 +46,38 @@ func (s *Sensibo) SetDeviceACState(ctx context.Context, id string, state models.
 	return resp, nil
 }
 
+// CreateDeviceSchedulePayload is the payload for the CreateDeviceSchedule API
+type CreateDeviceSchedulePayload struct {
+	TargetTimeLocal string             `json:"targetTimeLocal"`
+	TimeZone        string             `json:"timezone"`
+	ACState         models.ACStateData `json:"acState"`
+	RecurringDays   []string           `json:"recurOnDaysOfWeek"`
+}
+
 // CreateDeviceSchedule creates a new schedule.
 //
 // id is the ID of the device
 //
 // It returns the direct response from Sensibo API as a string or error
 // if an issue occurred
-func (s *Sensibo) CreateDeviceSchedule(ctx context.Context, id string, schedule models.CreateDeviceSchedulePayload) (string, error) {
-	recurringDaysJSONArr, _ := json.Marshal(schedule.RecurringDays)
-	payload := fmt.Sprintf(
-		`
-			{
-				"targetTimeLocal": "%s",
-				"timezone": "%s",
-				"acState": {
-					"on": %v,
-					"mode": "%s",
-					"fanLevel": "%s",
-					"targetTemperature": %d,
-					"temperatureUnit": "%s",
-					"swing": "%s"
-				},
-				"recurOnDaysOfWeek": %v
-			}
-		`,
+func (s *Sensibo) CreateDeviceSchedule(ctx context.Context, id string, schedule CreateDeviceSchedulePayload) (string, error) {
+	payload := CreateDeviceSchedulePayload{
 		schedule.TargetTimeLocal,
 		schedule.TimeZone,
-		schedule.ACState.On,
-		schedule.ACState.Mode,
-		schedule.ACState.FanLevel,
-		int64(schedule.ACState.TargetTemperature),
-		schedule.ACState.TemperatureUnit,
-		schedule.ACState.Swing,
-		string(recurringDaysJSONArr),
-	)
+		schedule.ACState,
+		schedule.RecurringDays,
+	}
+	payloadStr, err := json.Marshal(payload)
+
+	if err != nil {
+		return "", fmt.Errorf("failed marshal on payload: \n\t%v", err)
+	}
 
 	resp, err := s.makePostRequest(
 		ctx,
 		"v1",
 		fmt.Sprintf("pods/%s/schedules", id),
-		bytes.NewBuffer([]byte(payload)),
+		bytes.NewBuffer(payloadStr),
 	)
 
 	if err != nil {
